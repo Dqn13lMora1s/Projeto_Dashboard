@@ -13,17 +13,16 @@ async function sendCommand(command){
 
     try{
 
-        console.log("Trying to connect to WyreStorm...");
+        console.log("Trying to connect...");
 
         await connection.connect(params);
 
         console.log("CONNECTED ✔");
 
-        console.log("Sending command:", command);
-
-        const response = await connection.send(command + "\r\n");
-
-        console.log("Response:", response);
+        const response =
+            await connection.send(
+                command + "\r\n"
+            );
 
         connection.end();
 
@@ -32,9 +31,12 @@ async function sendCommand(command){
     }
     catch(error){
 
-        console.log("❌ MATRIX ERROR:");
         console.log(error.message);
 
         throw error;
     }
 }
+
+module.exports = {
+    sendCommand
+};

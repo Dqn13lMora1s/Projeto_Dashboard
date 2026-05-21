@@ -1,67 +1,60 @@
-        // Select all cards
-        const cards = document.querySelectorAll(".card");
+// Select all cards
+const cards = document.querySelectorAll(".card");
 
-        // Status text
-        const statusText = document.getElementById("statusText");
+// Status text
+const statusText = document.getElementById("statusText");
 
-        // Add click event to every card
-        cards.forEach(card => {
+// Device IP addresses
+const deviceIPs = {
+    "WyreStorm": "http://192.168.11.143",
+    "Device 2": "http://192.168.11.144",
+    "Device 3": "http://192.168.11.145",
+    "Device 4": "http://192.168.11.146"
+};
 
-            card.addEventListener("click", () => {
+// Add click event to every card
+cards.forEach(card => {
 
-                // Get device name from the card text
-                const deviceName =
-                    card.querySelector("span").innerText;
+    card.addEventListener("click", () => {
 
-                // Update status panel
-                statusText.innerText =
-                    `${deviceName} selected`;
+        // Get device name
+        const deviceName =
+            card.querySelector("span").innerText;
 
-                // Visual feedback
-                cards.forEach(c =>
-                    c.classList.remove("active")
-                );
+        // Update status panel
+        statusText.innerText =
+            `${deviceName} selected`;
 
-                card.classList.add("active");
+        // Remove active class from all cards
+        cards.forEach(c =>
+            c.classList.remove("active")
+        );
 
-                console.log("Selected:", deviceName);
+        // Highlight clicked card
+        card.classList.add("active");
 
-                sendCommand(deviceName);
+        console.log("Selected:", deviceName);
 
-            });
+        // Open corresponding IP
+        const deviceIP =
+            deviceIPs[deviceName];
 
-        });
+        if(deviceIP){
 
-        async function sendCommand(device){
-
-        try{
-
-            const response =
-                await fetch(
-                    "http://localhost:3000/matrix",
-                    {
-                        method:"POST",
-                        headers:{
-                            "Content-Type":"application/json"
-                        },
-                        body: JSON.stringify({
-
-                            command:
-                            `COMMAND_FOR_${device}`
-
-                        })
-                    }
-                );
-
-            const data =
-                await response.json();
-
-            console.log(data);
+            window.open(
+                deviceIP,
+                "_blank"
+            );
 
         }
-        catch(error){
+        else{
 
-            console.log(error);
+            alert(
+                `No IP configured for ${deviceName}`
+            );
+
         }
 
-    }
+    });
+
+});
