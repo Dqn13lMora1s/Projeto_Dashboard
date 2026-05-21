@@ -7,8 +7,8 @@ const statusText = document.getElementById("statusText");
 // Device IP addresses
 const deviceIPs = {
     "WyreStorm": "http://192.168.11.143",
-    "Device 2": "http://192.168.11.144",
-    "Device 3": "http://192.168.11.145",
+    "Projeto": "http://192.168.0.8",
+    "Yamaha Sound Board": "http://192.168.11.145",
     "Device 4": "http://192.168.11.146"
 };
 
