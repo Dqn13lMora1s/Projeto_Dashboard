@@ -7,9 +7,9 @@ const statusText = document.getElementById("statusText");
 // Device IP addresses
 const deviceIPs = {
     "WyreStorm": "http://192.168.11.143",
-    "Projeto": "http://192.168.0.8",
-    "Yamaha Sound Board": "http://192.168.11.145",
-    "Device 4": "http://192.168.11.146"
+    "Panasonic Projetor": "http://192.168.0.8",
+    "Yamaha TF1": "http://192.168.0.2",
+    "Barco": "http://172.20.21.21"
 };
 
 // Add click event to every card
