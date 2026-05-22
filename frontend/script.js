@@ -9,7 +9,7 @@ const deviceIPs = {
     "WyreStorm": "http://192.168.11.143",
     "Panasonic Projetor": "http://192.168.0.8",
     "Yamaha TF1": "http://192.168.0.2",
-    "Barco": "http://172.20.21.21"
+    "Dolby": "http://192.168.1.151"
 };
 
 // Add click event to every card
