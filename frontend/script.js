@@ -40,12 +40,7 @@ cards.forEach(card => {
             deviceIPs[deviceName];
 
         if(deviceIP){
-
-            window.open(
-                deviceIP,
-                "_blank"
-            );
-
+            window.location.href = deviceIP;
         }
         else{
 
