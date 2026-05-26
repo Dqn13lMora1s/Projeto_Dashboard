@@ -16,10 +16,13 @@ app.post("/matrix", async(req,res)=>{
 
     try{
 
-        const { command } = req.body;
+        const { deviceName, command } = req.body;
 
         const result =
-            await sendCommand(command);
+            await sendCommand(
+                deviceName,
+                command
+            );
 
         res.json({
             success:true,

@@ -1,40 +1,38 @@
 const Telnet = require("telnet-client");
 
-async function sendCommand(command){
+const devices = {
+    WyreStorm: "192.168.0.6",
+    Projetor: "192.168.0.8",
+    Yamaha: "192.168.0.2",
+    Dolby: "192.168.1.151"
+};
+
+async function sendCommand(deviceName, command){
+
+    const ip = devices[deviceName];
+
+    if(!ip){
+        throw new Error("Unknown device");
+    }
 
     const connection = new Telnet();
 
     const params = {
-        host: "192.168.11.143",
+        host: ip,
         port: 23,
-        timeout: 5000,
-        debug: true
+        timeout: 5000
     };
 
-    try{
+    await connection.connect(params);
 
-        console.log("Trying to connect...");
+    const response =
+        await connection.send(
+            command + "\r\n"
+        );
 
-        await connection.connect(params);
+    connection.end();
 
-        console.log("CONNECTED ✔");
-
-        const response =
-            await connection.send(
-                command + "\r\n"
-            );
-
-        connection.end();
-
-        return response;
-
-    }
-    catch(error){
-
-        console.log(error.message);
-
-        throw error;
-    }
+    return response;
 }
 
 module.exports = {
