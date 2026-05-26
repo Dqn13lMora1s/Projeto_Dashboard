@@ -6,7 +6,7 @@ const statusText = document.getElementById("statusText");
 
 // Device IP addresses
 const deviceIPs = {
-    "WyreStorm": "http://192.168.11.143",
+    "WyreStorm": "http://192.168.0.6",
     "Panasonic Projetor": "http://192.168.0.8",
     "Yamaha TF1": "http://192.168.0.2",
     "Dolby": "http://192.168.1.151"
