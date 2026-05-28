@@ -1,55 +1,55 @@
 // Select all cards
 const cards = document.querySelectorAll(".card");
-
-// Status text
 const statusText = document.getElementById("statusText");
 
-// Device IP addresses
-const deviceIPs = {
-    "WyreStorm": "http://192.168.0.6",
-    "Panasonic Projetor": "http://192.168.0.8",
-    "Yamaha TF1": "http://192.168.0.2",
-    "Dolby": "http://192.168.1.151"
+// Device Configuration
+const deviceConfig = {
+    "WyreStorm": { type: "url", address: "http://192.168.0.6" },
+    "Panasonic Projetor": { type: "url", address: "http://192.168.0.8" },
+    "Yamaha TF1": { type: "app", endpoint: "http://localhost:3000/open-app" }, // Calls your local API
+    "Dolby": { type: "url", address: "http://192.168.1.151" }
 };
 
-// Add click event to every card
 cards.forEach(card => {
-
-    card.addEventListener("click", () => {
-
-        // Get device name
-        const deviceName =
-            card.querySelector("span").innerText;
-
-        // Update status panel
-        statusText.innerText =
-            `${deviceName} selected`;
-
-        // Remove active class from all cards
-        cards.forEach(c =>
-            c.classList.remove("active")
-        );
-
-        // Highlight clicked card
+    card.addEventListener("click", async () => {
+        const deviceName = card.querySelector("span").innerText;
+        
+        // Update UI
+        statusText.innerText = `${deviceName} selected`;
+        cards.forEach(c => c.classList.remove("active"));
         card.classList.add("active");
 
-        console.log("Selected:", deviceName);
+        const config = deviceConfig[deviceName];
 
-        // Open corresponding IP
-        const deviceIP =
-            deviceIPs[deviceName];
-
-        if(deviceIP){
-            window.location.href = deviceIP;
-        }
-        else{
-
-            alert(
-                `No IP configured for ${deviceName}`
-            );
-
+        if (!config) {
+            alert(`No configuration found for ${deviceName}`);
+            return;
         }
 
+        // Handle Web Interfaces
+        if (config.type === "url") {
+            window.location.href = config.address;
+        } 
+        // Handle Local App Launch (Yamaha)
+        else if (config.type === "app") {
+            statusText.innerText = `${deviceName} launching...`;
+            
+            try {
+                // Call your local server.js
+                const response = await fetch(config.endpoint);
+                const result = await response.json();
+
+                if (result.success) {
+                    statusText.innerText = `${deviceName} launched successfully!`;
+                } else {
+                    alert(`Failed to launch: ${result.message}`);
+                    statusText.innerText = `Error launching ${deviceName}`;
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Could not connect to local server. Is 'node server.js' running?");
+                statusText.innerText = `Connection error for ${deviceName}`;
+            }
+        }
     });
-
 });
